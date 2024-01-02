@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
+import {useNavigate} from 'react-router-dom'
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
-import taskImg from '../images/task.png'
-import sendImg from '../images/send.png'
+import taskImg from "../images/task.png";
+import sendImg from "../images/send.png";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./home.css";
 
 function Home() {
   const [dataRe, setDataRe] = useState([]);
-  const [task_id, setTask_id] = useState("1");
   const [task_name, setTask_name] = useState("");
+  const [message, setMessage] = useState('')
+  const navigate = useNavigate();
 
   const date = new Date();
 
@@ -21,10 +23,6 @@ function Home() {
   };
 
   let showDate = date.toLocaleString("en-IN", options);
-
-  const idInc = () => {
-    setTask_id(JSON.stringify(parseInt(task_id) + 1));
-  };
 
   const showData = async () => {
     try {
@@ -37,24 +35,49 @@ function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    idInc();
     try {
-      const data = { task_id, task_name };
+      const data = { task_name };
       await fetch("http://localhost:8080/task", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
       showData();
-      // console.log(result);
+      removeItem();
     } catch (error) {
       console.error(error);
     }
+    window.location = "/";
+  };
+
+  const removeItem = async (task_id) => {
+    try {
+      let res = await fetch("http://localhost:8080/task/"+task_id, {
+        method: "DELETE",
+        headers: { "content-type": "application/json"},
+      });
+  
+     await res.json();
+     
+     console.log(res.status)
+      if(res.status === 200){
+        setMessage('deleted')
+        setTimeout(() => {
+          navigate('/')
+        },1000)
+      }else{
+        setMessage('')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    // alert(id);
+    console.log(task_id);
   };
 
   useEffect(() => {
     showData();
-  }, []);
+  },[message]);
 
   return (
     <div>
@@ -78,19 +101,9 @@ function Home() {
         <div className="item-con">
           <h1>Todo List App</h1>
           <form onSubmit={handleSubmit} className="inp-form">
-            <div className="id-con" style={{ display: "none" }}>
-              <label htmlFor="task_id">ID: </label>
-              <input
-                type="number"
-                name="id"
-                id="task_id"
-                value={task_id}
-                onChange={(e) => setTask_id(e.target.value)}
-              />
-            </div>
             <div className="inp-con">
               <label htmlFor="task">
-                <img src= {taskImg} alt="Task: " width={"30px"}/>
+                <img src={taskImg} alt="Task: " width={"30px"} />
               </label>
               <input
                 type="text"
@@ -103,7 +116,7 @@ function Home() {
                 }}
               />
               <Button type="submit" variant="dark" className="add-btn">
-                <img src={sendImg} alt="Submit" width={"30px"}/>
+                <img src={sendImg} alt="Submit" width={"30px"} />
               </Button>
             </div>
           </form>
@@ -112,7 +125,19 @@ function Home() {
             <ul className="task-list">
               {dataRe.map((data, index) => (
                 <li key={index} className="list-item">
-                  {data}
+                  {data.Task_name}
+                  <Button
+                    variant="btn btn-danger"
+                    style={{
+                      fontSize: "14px",
+                      marginLeft: "50px",
+                      cursor: "pointer",
+                    }}
+                    // value={data.Task_id}
+                    onClick={() => removeItem(data.Task_id)}
+                  >
+                    X
+                  </Button>
                 </li>
               ))}
             </ul>
