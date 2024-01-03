@@ -16,6 +16,7 @@ const conn = mysql.createConnection({
 conn.connect((err) => {
     if(err) throw err;
     console.log('Connected!');
+    conn.query(`TRUNCATE TABLE todo_list`)
 })
 
 app.get('/task', async(req,res) => {
@@ -51,6 +52,24 @@ app.delete('/task/:id', (req,res) => {
         return res.json('Task deleted successfully!')
     })
 })
+
+// Update functionality yet to be added in the application
+//---------------------------------------------------------------
+// app.put('/task/updatetask:id/:task', (req,res) => {
+//     const task_name = req.params.task;
+//     const id = req.params.id;
+//     let q = `UPDATE todo_list
+//             SET Task_name = ?
+//             WHERE Task_id = ?`
+    
+//     conn.query(q,[task_name, id], (err,result) =>{
+//         if(err){
+//             console.error(err)
+//         }
+//         return res.json('Task update successfully!')
+//     })
+// })
+//----------------------------------------------------------------
 
 app.listen(PORT, ()=>{
     console.log(`Server started on port: ${PORT}`);

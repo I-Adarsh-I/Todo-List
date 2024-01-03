@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
@@ -9,9 +11,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./home.css";
 
 function Home() {
-  const [dataRe, setDataRe] = useState([]);
+  const [dataRe, setDataRe] = useState([]); // Initializing dataRe to store returned data from database
   const [task_name, setTask_name] = useState("");
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const date = new Date();
@@ -42,7 +44,7 @@ function Home() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
-      showData();
+      showData(); // Callback function to show data and remove data
       removeItem();
     } catch (error) {
       console.error(error);
@@ -50,34 +52,59 @@ function Home() {
     window.location = "/";
   };
 
+  //Remove task code
   const removeItem = async (task_id) => {
     try {
-      let res = await fetch("http://localhost:8080/task/"+task_id, {
+      let res = await fetch("http://localhost:8080/task/" + task_id, {
+        // Fetch task besed  on the particular task id
         method: "DELETE",
-        headers: { "content-type": "application/json"},
+        headers: { "content-type": "application/json" },
       });
-  
-     await res.json();
-     
-     console.log(res.status)
-      if(res.status === 200){
-        setMessage('deleted')
+
+      await res.json(); //Converting response to JSON format to check status
+
+      if (res.status === 200) {
+        setMessage("deleted"); //set message to deleted if my response is OK!
         setTimeout(() => {
-          navigate('/')
-        },1000)
-      }else{
-        setMessage('')
+          setMessage(""); //set message to " " after 1 sec!
+          navigate("/");
+        }, 100);
+      } else {
+        setMessage(""); // Or else set message to blank
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-    // alert(id);
-    console.log(task_id);
   };
 
+  // const inputRef = useRef();
+
   useEffect(() => {
-    showData();
-  },[message]);
+    showData(); // Calling showData function and it rerenders when message changes
+  }, [message]);
+
+  // Update funtionality yet to be added in the application
+  //--------------------------------------------------------
+  // const updateItem = async (task_id, task_name) => {
+  //   try {
+  //     let res = await fetch(
+  //       "http://localhost:8080/task/updatetask" + task_id + "/" + task_name,
+  //       {
+  //         method: "PUT",
+  //         headers: { "content-type": "application/json" },
+  //       }
+  //     );
+  //     await res.json();
+  //     if (res.status === 200) {
+  //       setTimeout(() =>{
+  //         navigate('/');
+  //       },2000)
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+  //---------------------------------------------------------
 
   return (
     <div>
@@ -103,7 +130,7 @@ function Home() {
           <form onSubmit={handleSubmit} className="inp-form">
             <div className="inp-con">
               <label htmlFor="task">
-                <img src={taskImg} alt="Task: " width={"30px"} />
+                <img src={taskImg} className="input_images img1" alt="Task: " width={"30px"} />
               </label>
               <input
                 type="text"
@@ -116,7 +143,7 @@ function Home() {
                 }}
               />
               <Button type="submit" variant="dark" className="add-btn">
-                <img src={sendImg} alt="Submit" width={"30px"} />
+                <img src={sendImg} className="input_images img2" alt="Submit" width={"30px"} />
               </Button>
             </div>
           </form>
@@ -125,19 +152,41 @@ function Home() {
             <ul className="task-list">
               {dataRe.map((data, index) => (
                 <li key={index} className="list-item">
-                  {data.Task_name}
-                  <Button
-                    variant="btn btn-danger"
-                    style={{
-                      fontSize: "14px",
-                      marginLeft: "50px",
-                      cursor: "pointer",
-                    }}
-                    // value={data.Task_id}
-                    onClick={() => removeItem(data.Task_id)}
-                  >
-                    X
-                  </Button>
+                  <div className="list-main-div">
+                    <div className="task-name-div">{data.Task_name}</div>
+                    <div className="buttons-con">
+                      {/* Edit button */}
+                      {/* <Button
+                      variant="success"
+                        style={{
+                          fontSize: "14px",
+                          marginLeft: "50px",
+                          cursor: "pointer",
+                        }}
+                          onClick={() => updateItem(data.Task_id, data.Task_name)}
+                      >
+                        Edit
+                      </Button> */}
+                      {/*  */}
+
+                      <button
+                        style={{
+                          fontSize: "16px",
+                          marginLeft: "50px",
+                          cursor: "pointer",
+                          background: "none",
+                          border: "none",
+                        }}
+                        // value={data.Task_id}
+                        onClick={() => removeItem(data.Task_id)}
+                      >
+                        <FontAwesomeIcon
+                          icon={faTrash}
+                          style={{ color: "rgb(224,0,0)" }}
+                        />
+                      </button>
+                    </div>
+                  </div>
                 </li>
               ))}
             </ul>

@@ -1,7 +1,7 @@
 body {
   background: url("https://images.unsplash.com/photo-1667487199569-657701bfc656?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-size: cover;
 }
 .bg-body-tertiary {
   height: 8vh;
@@ -77,7 +77,7 @@ body {
 }
 .list-item {
   list-style: none;
-  height: 40px;
+  height: auto;
   font-size: 18px;
   font-family: Arial, Helvetica, sans-serif;
   width: 99%;
@@ -89,6 +89,19 @@ body {
   backdrop-filter: blur(10px);
   border-radius: 8px;
   margin: 10px 0 5px 0;
+  padding: 10px 5px;
+}
+
+.list-main-div {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.important_star {
+  color: white;
+  padding: 0 10px 0 0;
+  cursor: pointer;
 }
 .scrollable-list {
   width: 100%;
@@ -120,4 +133,52 @@ body {
 }
 .thin::-webkit-scrollbar {
   width: 9px;
+}
+
+@media screen and (max-width: 270px) {
+  *{
+    font-size: 13px;
+  }
+  body {
+    background: url("https://images.unsplash.com/photo-1700742330312-770fa27abad6?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* background-size: 100%; */
+  }
+  .item-con{
+    width: 80%;
+    /* font-size: 13px; */
+  }
+  .input_images{
+    width: 22px;
+  }
+  .add-btn{
+    display: none;
+  }
+}
+@media screen and (min-width: 270px) and (max-width: 700px) {
+
+  body {
+    background: url("https://images.unsplash.com/photo-1700742330312-770fa27abad6?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* background-size: 100%; */
+  }
+  .item-con{
+    width: 80%;
+  }
+  .add-btn{
+    display: none;
+  }
+}
+@media screen and (min-width:700px) and (max-width: 1024px) {
+  body {
+    background: url("https://images.unsplash.com/photo-1700742330312-770fa27abad6?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* background-size: 100%; */
+  }
+  .item-con{
+    width: 80%;
+  }
 }

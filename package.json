@@ -36,6 +36,7 @@
     "http-errors": "^2.0.0",
     "iconv-lite": "^0.4.24",
     "inherits": "^2.0.4",
+    "install": "^0.13.0",
     "ipaddr.js": "^1.9.1",
     "media-typer": "^0.3.0",
     "merge-descriptors": "^1.0.1",
@@ -47,6 +48,7 @@
     "mysql": "^2.18.1",
     "negotiator": "^0.6.3",
     "node-persist": "^4.0.1",
+    "npm": "^10.2.5",
     "object-assign": "^4.1.1",
     "object-inspect": "^1.13.1",
     "on-finished": "^2.4.1",
@@ -56,6 +58,7 @@
     "qs": "^6.11.0",
     "range-parser": "^1.2.1",
     "raw-body": "^2.5.1",
+    "react-icons": "^4.12.0",
     "safe-buffer": "^5.2.1",
     "safer-buffer": "^2.1.2",
     "send": "^0.18.0",
@@ -76,4 +79,3 @@
   "author": "",
   "license": "ISC"
 }
-
